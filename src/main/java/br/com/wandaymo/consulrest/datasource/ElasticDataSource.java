@@ -97,7 +97,7 @@ public class ElasticDataSource {
 
                 Restrictive restrictive = randomGenerate.generateRestrictive();
                 restrictive.setPersonId(person.getId());
-                insertData(restrictive, restrictive.getId(),"restrictive");
+                insertData(restrictive, restrictive.getId(), "restrictive");
 
             }
             LOG.info("Iteração {}", j);
@@ -147,6 +147,9 @@ public class ElasticDataSource {
             LOG.error("Bulk had errors");
             for (BulkResponseItem item : bulkResponse.items()) {
                 if (item.error() != null) {
+                    if (LOG.isDebugEnabled()) {
+                        LOG.error("An error occurred: {} ", item.error().reason());
+                    }
                     throw new IOException("An error occurred: " + item.error().reason());
                 }
             }

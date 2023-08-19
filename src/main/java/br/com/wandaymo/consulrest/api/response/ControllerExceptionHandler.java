@@ -32,16 +32,8 @@ public class ControllerExceptionHandler {
         return new ResponseEntity<>(errorResponse, null, HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler(AuthenticationException.class)
+    @ExceptionHandler({AuthenticationException.class, TokenExpiredException.class})
     public ResponseEntity<ErrorResponse> handleAuthenticationException(Exception ex) {
-        var exceptionMessage = ex.getMessage();
-        LOGGER.warn("{}", exceptionMessage);
-        var errorResponse = new ErrorResponse(exceptionMessage, ZonedDateTime.now());
-        return new ResponseEntity<>(errorResponse, null, HttpStatus.UNAUTHORIZED);
-    }
-
-    @ExceptionHandler(TokenExpiredException.class)
-    public ResponseEntity<ErrorResponse> tokenExpiredException(Exception ex) {
         var exceptionMessage = ex.getMessage();
         LOGGER.warn("{}", exceptionMessage);
         var errorResponse = new ErrorResponse(exceptionMessage, ZonedDateTime.now());

@@ -2,6 +2,7 @@ package br.com.wandaymo.consulrest.service;
 
 import br.com.wandaymo.consulrest.api.dto.UserDTO;
 import br.com.wandaymo.consulrest.entity.User;
+import br.com.wandaymo.consulrest.log.Logged;
 import br.com.wandaymo.consulrest.mapper.UserMapper;
 import br.com.wandaymo.consulrest.repository.UserElasticRepository;
 import java.util.List;
@@ -29,6 +30,7 @@ public class UserService {
     @Autowired
     private AuthenticationManager authenticationManager;
 
+    @Logged
     public String save(UserDTO userDTO) {
         if (userElasticRepository.findByUsername(userDTO.getUsername()) != null) {
             throw new IllegalArgumentException("This username is already in use.");
@@ -43,6 +45,7 @@ public class UserService {
         return generateToken(userDTO);
     }
 
+    @Logged
     public String getToken(UserDTO userDTO) {
         var userData = userElasticRepository.findByUsername(userDTO.getUsername());
         if (userData!= null && bCryptPasswordEncoder.matches(userDTO.getPassword(), userData.getPassword())) {
