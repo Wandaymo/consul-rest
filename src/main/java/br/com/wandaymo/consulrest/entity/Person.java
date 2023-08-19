@@ -52,4 +52,12 @@ public class Person {
 
     private String phoneNumber;
 
+    private String createdBy;
+
+    private String updatedBy;
+
+    @Field(type = FieldType.Date, format = DateFormat.date)
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "America/Sao_Paulo")
+    private LocalDate updatedDate;
+
 }
